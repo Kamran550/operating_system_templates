@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soldiers for Division: {{ $division->name }}</title>
+    <!-- Add your CSS or other links here -->
+</head>
+
+<body>
+    <h1>Soldiers for Division: {{ $division->name }}</h1>
+
+    @if ($soldiers->isEmpty())
+        <p>No soldiers found for this division.</p>
+    @else
+        <form action="{{ route('event.add_soldiers') }}" method="POST">
+            @csrf
+            <div>
+                <label>
+                    <input type="radio" name="event_type" value="tras" required> Tras
+                </label>
+                <label>
+                    <input type="radio" name="event_type" value="rayon" required> Rayon
+                </label>
+            </div>
+            <input type="hidden" name="division_id" value="{{ $division->id }}">
+
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Rank</th>
+                        <th>Weapon Number</th>
+                        <th>Reserv status</th>
+                        <th>Add to Event</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($soldiers as $soldier)
+                        <tr>
+                            <td>{{ $soldier->name }}</td>
+                            <td>{{ $soldier->surname }}</td>
+                            <td>{{ $soldier->rank }}</td>
+                            <td>{{ $soldier->weapon_number }}</td>
+                            <td>
+                                <!-- Checkbox for marking as reserv -->
+                                <input type="checkbox" name="soldiers[{{ $soldier->id }}][isReserv]" value="1">
+                            </td>
+                            <td>
+                                <!-- Checkbox for selecting the soldier -->
+                                <input type="checkbox" name="soldiers[{{ $soldier->id }}][selected]" value="1">
+                            </td>
+                            <!-- Hidden input for soldier data -->
+                            <input type="hidden" name="soldiers[{{ $soldier->id }}][id]"
+                                value="{{ $soldier->id }}">
+                            <input type="hidden" name="soldiers[{{ $soldier->id }}][name]"
+                                value="{{ $soldier->name }}">
+                            <input type="hidden" name="soldiers[{{ $soldier->id }}][surname]"
+                                value="{{ $soldier->surname }}">
+                            <input type="hidden" name="soldiers[{{ $soldier->id }}][weapon_number]"
+                                value="{{ $soldier->weapon_number }}">
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <label for="event_date">Event Date:</label>
+            <input type="date" name="event_date" id="event_date" required>
+
+            <button type="submit" class="btn btn-primary">Add Selected Soldiers</button>
+        </form>
+
+    @endif
+
+
+
+</body>
+
+</html>

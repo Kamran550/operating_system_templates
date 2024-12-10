@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <!-- Common Navbar Items -->
+            <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li><a href="">Profile</a></li>
+
+            <!-- Dynamic Navbar based on Role -->
+            @if (session('role') === '1fqb_editor')
+                <li><a href="{{ route('event.create', ['role' => '1fqb_editor','division_name' => '1FQB']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '1fqb_editor']) }}">1FQB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '1fqb_editor']) }}">Create 1FQB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '1fqb_editor']) }}">Edit 1FQB Soldiers</a></li>
+            @elseif(session('role') === '2fqb_editor')
+                <li><a href="{{ route('soldiers.create', ['role' => '2fqb_editor']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '2fqb_editor']) }}">2FQB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '2fqb_editor']) }}">Create 2FQB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '2fqb_editor']) }}">Edit 2FQB Soldiers</a></li>
+            @elseif(session('role') === '3fqb_editor')
+                <li><a href="{{ route('soldiers.create', ['role' => '3fqb_editor']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '3fqb_editor']) }}">3FQB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '3fqb_editor']) }}">Create 3FQB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '3fqb_editor']) }}">Edit 3FQB Soldiers</a></li>
+            @elseif(session('role') === '1xtb_editor')
+                <li><a href="{{ route('soldiers.create', ['role' => '1xtb_editor']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '1xtb_editor']) }}">1XTB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '1xtb_editor']) }}">Create 1XTB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '1xtb_editor']) }}">Edit 1XTB Soldiers</a></li>
+            @elseif(session('role') === '2xtb_editor')
+                <li><a href="{{ route('soldiers.create', ['role' => '2xtb_editor']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '2xtb_editor']) }}">2XTB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '2xtb_editor']) }}">Create 2XTB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '2xtb_editor']) }}">Edit 2XTB Soldiers</a></li>
+            @elseif(session('role') === '3xtb_editor')
+                <li><a href="{{ route('soldiers.create', ['role' => '3xtb_editor']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '3xtb_editor']) }}">3XTB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '3xtb_editor']) }}">Create 3XTB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => '3xtb_editor']) }}">Edit 3XTB Soldiers</a></li>
+                w
+            @elseif(session('role') === 'ab_editor')
+                <li><a href="{{ route('soldiers.create', ['role' => 'ab_editor']) }}">Create Event</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => 'ab_editor']) }}">AB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => 'ab_editor']) }}">Create AB Soldiers</a></li>
+                <li><a href="{{ route('soldiers.create', ['role' => 'ab_editor']) }}">Edit AB Soldiers</a></li>
+            @else
+                <li><a href="">Home</a></li>
+            @endif
+
+            <!-- Common Navbar Items -->
+            <li><a href="">Logout</a></li>
+        </ul>
+    </nav>
+
+
+    <h1>Welcome to the Dashboard</h1>
+    <p>You are logged in as <strong>{{ $role }}</strong>.</p>
+
+    <h2>Soldiers List</h2>
+    @if ($soldiers->isEmpty())
+        <p>No soldiers found for your unit.</p>
+    @else
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Sıra</th>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Ata Adı</th>
+                    <th>Silahının nömrəsi</th>
+                    <th>Rütbə</th>
+                    <th>Bölmə</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($soldiers as $soldier)
+                    <tr>
+                        <td>{{ $soldier->id }}</td>
+                        <td>{{ $soldier->name }}</td>
+                        <td>{{ $soldier->surname }}</td>
+                        <td>{{ $soldier->father_name }}</td>
+                        <td>{{ $soldier->weapon_number }}</td>
+                        <td>{{ $soldier->rank }}</td>
+                        <td>{{ $soldier->division->name }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
+
+    {{-- <a href="/soldiers">SOLDIERs</a> --}}
+</body>
+
+</html>
